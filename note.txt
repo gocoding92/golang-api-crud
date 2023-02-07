@@ -1,0 +1,2 @@
+1. Buat Struktur Folder
+2. Install Echo
