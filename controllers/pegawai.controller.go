@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
-func FetchAllPegawaiController(c echo.Context) error {
-	result := models.FetchAllPegawaiModel()
+func FetchListPegawaiController(c echo.Context) error {
+	result := models.FetchListPegawaiModel()
 
 	return c.JSON(http.StatusOK, result)
 }
