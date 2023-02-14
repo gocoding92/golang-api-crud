@@ -1,2 +1,7 @@
 1. Buat Struktur Folder
 2. Install Echo
+3. Koneksi DB
+    - Install Driver lib/pq untuk menghubungkan database dengan Golang
+       https://www.calhoun.io/connecting-to-a-postgresql-database-with-gos-database-sql-package/
+    - Install Configuration File and Env in GO
+       https://github.com/tkanos/gonfig

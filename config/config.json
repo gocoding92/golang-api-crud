@@ -1,0 +1,7 @@
+{
+  "DB_HOST": "localhost",
+  "DB_USERNAME": "postgres",
+  "DB_PASSWORD": "html5123",
+  "DB_PORT": 5431,
+  "DB_NAME": "kepegawaian"
+}
