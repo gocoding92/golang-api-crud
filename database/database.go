@@ -29,6 +29,7 @@ func Init() {
 	}
 
 }
+
 func CreateCon() *sql.DB {
 	return db
 }

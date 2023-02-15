@@ -16,6 +16,12 @@ type Pegawai struct {
 	Telepon string `json:"telepon"`
 }
 
+type Response struct {
+	Status  int         `json:"status"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data"`
+}
+
 func FetchListPegawaiController(c echo.Context) error {
 	conf := config.GetConfig()
 
@@ -33,28 +39,29 @@ func FetchListPegawaiController(c echo.Context) error {
 		panic(err)
 	}
 
-	rows, err := db.Query("SELECT * FROM pegawai ORDER BY id ASC")
+	query := "SELECT * FROM pegawai ORDER BY id ASC"
 
+	rows, err := db.Query(query)
 	defer rows.Close()
 
+	var arrobj []Pegawai
+	var obj Pegawai
+
 	for rows.Next() {
-		var id int
-		var nama, alamat, telepon string
-		err := rows.Scan(&id, &nama, &alamat, &telepon)
+		err := rows.Scan(&obj.Id, &obj.Nama, &obj.Alamat, &obj.Telepon)
 
 		if err != nil {
 			panic(err)
 		}
 
-		u := &Pegawai{
-			Id:      id,
-			Nama:    nama,
-			Alamat:  alamat,
-			Telepon: telepon,
-		}
-
-		return c.JSON(http.StatusOK, u)
+		arrobj = append(arrobj, obj)
 	}
 
-	return c.JSON(http.StatusOK, rows)
+	res := &Response{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Data:    arrobj,
+	}
+
+	return c.JSON(http.StatusOK, res)
 }
