@@ -68,6 +68,6 @@ func main() {
 		fmt.Println(each.nama)
 	}
 
-	e.Logger.Fatal(e.Start(":3130"))
+	e.Logger.Fatal(e.Start(":2020"))
 
 }

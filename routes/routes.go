@@ -14,7 +14,7 @@ func Init() *echo.Echo {
 		return c.String(http.StatusOK, "Hello World")
 	})
 
-	e.GET("/pegawai", controllers.FetchListPegawaiController)
+	e.GET("/pegawai/list", controllers.FetchListPegawaiController)
 
 	return e
 }
