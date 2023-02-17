@@ -6,7 +6,9 @@ import (
 	"github.com/labstack/echo/v4"
 	_ "github.com/lib/pq"
 	"go-echo-api/config"
+	"go-echo-api/models"
 	"net/http"
+	"strconv"
 )
 
 type Pegawai struct {
@@ -64,4 +66,38 @@ func FetchListPegawaiController(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, res)
+}
+
+func FetchCreatePegawaiController(c echo.Context) error {
+	nama := c.FormValue("nama")
+	alamat := c.FormValue("alamat")
+	telepon := c.FormValue("telepon")
+
+	result, err := models.FetchCreatePegawaiModel(nama, alamat, telepon)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, result)
+}
+
+func FetchUpdatePegawaiController(c echo.Context) error {
+	id := c.FormValue("id")
+	nama := c.FormValue("nama")
+	alamat := c.FormValue("alamat")
+	telepon := c.FormValue("telepon")
+
+	conv_id, err := strconv.Atoi(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	result, err := models.FetchUpdatePegawaiModel(conv_id, nama, alamat, telepon)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, result)
 }

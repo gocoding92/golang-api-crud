@@ -15,6 +15,8 @@ func Init() *echo.Echo {
 	})
 
 	e.GET("/pegawai/list", controllers.FetchListPegawaiController)
+	e.POST("/pegawai/create", controllers.FetchCreatePegawaiController)
+	e.PUT("/pegawai/update", controllers.FetchUpdatePegawaiController)
 
 	return e
 }
