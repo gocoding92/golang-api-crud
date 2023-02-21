@@ -101,3 +101,19 @@ func FetchUpdatePegawaiController(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, result)
 }
+
+func FetchDeletePegawaiController(c echo.Context) error {
+	id := c.FormValue("id")
+
+	conv_id, err := strconv.Atoi(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	result, err := models.FetchDeletePegawaiModel(conv_id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, result)
+}

@@ -74,14 +74,9 @@ func FetchCreatePegawaiModel(nama string, alamat string, telepon string) (Respon
 
 	stmt.Exec(nama, alamat, telepon)
 
-	id := 0
-	err = db.QueryRow(sqlStatement, nama, alamat, telepon).Scan(&id)
-
 	res.Status = http.StatusOK
 	res.Message = "Success"
-	res.Data = map[string]int{
-		"last_inserted_id": id,
-	}
+	res.Data = map[string]int{}
 
 	return res, nil
 }
@@ -115,9 +110,41 @@ func FetchUpdatePegawaiModel(id int, nama string, alamat string, telepon string)
 
 	res.Status = http.StatusOK
 	res.Message = "Success"
-	res.Data = map[string]string{
-		"last_inserted_id": "100",
+	res.Data = map[string]int{}
+
+	return res, nil
+}
+
+func FetchDeletePegawaiModel(id int) (Response, error) {
+	var res Response
+	conf := config.GetConfig()
+
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		conf.DB_HOST, conf.DB_PORT, conf.DB_USERNAME, conf.DB_PASSWORD, conf.DB_NAME)
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		panic(err)
 	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		panic(err)
+	}
+
+	sqlStatement := `DELETE FROM pegawai WHERE id = $1  `
+
+	stmt, err := db.Prepare(sqlStatement)
+	if err != nil {
+		return res, err
+	}
+
+	stmt.Exec(id)
+
+	res.Status = http.StatusOK
+	res.Message = "Success"
+	res.Data = map[string]int{}
 
 	return res, nil
 }
